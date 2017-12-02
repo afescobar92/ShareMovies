@@ -3,8 +3,10 @@ package movies.com.co.myapplication.model;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
-@Root(name = "poster", strict = false)
-public class PosterMovie {
+import java.io.Serializable;
+
+@Root(strict = false)
+public class PosterMovie implements Serializable {
 
     @Element(name = "location")
     private String posterSmall;

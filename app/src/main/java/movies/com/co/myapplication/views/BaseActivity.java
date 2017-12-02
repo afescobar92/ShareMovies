@@ -1,10 +1,12 @@
 package movies.com.co.myapplication.views;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import dmax.dialog.SpotsDialog;
 import movies.com.co.myapplication.helper.IValidateInternet;
 import movies.com.co.myapplication.helper.ShowAlertDialog;
 import movies.com.co.myapplication.helper.ValidateInternet;
@@ -15,7 +17,7 @@ public class BaseActivity<T extends BasePresenter> extends AppCompatActivity imp
 
 
     private IValidateInternet validateInternet;
-    private ProgressDialog progressDialog;
+    private AlertDialog progressDialog;
     private T presenter;
     private ShowAlertDialog showAlertDialog;
 
@@ -24,6 +26,7 @@ public class BaseActivity<T extends BasePresenter> extends AppCompatActivity imp
         super.onCreate(savedInstanceState);
         validateInternet = new ValidateInternet(BaseActivity.this);
         this.showAlertDialog = new ShowAlertDialog(this);
+        createProgressDialog();
 
     }
 
@@ -33,12 +36,14 @@ public class BaseActivity<T extends BasePresenter> extends AppCompatActivity imp
 
     @Override
     public void showProgress(int message) {
-        progressDialog.setMessage(getResources().getString(message));
+        if (message != 0){
+            progressDialog.setMessage(getResources().getString(message));
+        }
         progressDialog.show();
     }
 
     public void createProgressDialog(){
-        this.progressDialog = new ProgressDialog(this);
+        this.progressDialog = new SpotsDialog(this);
     }
 
     @Override

@@ -3,11 +3,12 @@ package movies.com.co.myapplication.model;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
-@Root(name = "info", strict = false)
-public class InformationMovie {
+@Root(strict = false)
+public class InformationMovie implements Serializable {
 
     @Element(name = "title")
     private String title;
@@ -24,7 +25,7 @@ public class InformationMovie {
     @Element(name = "postdate")
     private Date postdate;
 
-    @Element(name = "releasedate")
+    @Element(name = "releasedate",required=false)
     private Date releasedate;
 
     @Element(name = "copyright")

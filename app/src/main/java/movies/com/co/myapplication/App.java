@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 
+/*import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;*/
 import movies.com.co.myapplication.views.activities.DashBoardAppActivity;
 
 public class App extends Activity {
@@ -15,6 +17,7 @@ public class App extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /*Fabric.with(this, new Crashlytics());*/
         setContentView(R.layout.activity_app);
 
         new Handler().postDelayed(new Runnable(){

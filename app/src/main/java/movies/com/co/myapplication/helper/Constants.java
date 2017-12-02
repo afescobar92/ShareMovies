@@ -4,7 +4,7 @@ package movies.com.co.myapplication.helper;
 public class Constants {
 
     public final static String URL_BASE = "https://shoppingproducts.herokuapp.com";
-    public static final String URL_XML_BASE = "http://trailers.apple.com/trailers/home/xml/current.xml";
+    public static final String URL_XML_BASE = "http://trailers.apple.com/trailers/home/xml/";
     public final static int TIME_OUT = 6;
     public final static String ITEM_PRODUCT = "Itemproduct";
     public final static String ITEM_CUSTOMER = "Itemcustomer";
@@ -18,4 +18,7 @@ public class Constants {
     public static final String SHARE_PREFERENCE = "share_preference";
     public static final String USER_OBJECT = "USER_OBJECT";
     public static final CharSequence TITLE_MOVIES = "MOVIES";
+    public static final String ITEM_MOVIE = "ITEM_MOVIE";
+    public static final String FORMAT_DATE = "yyyy-MM-dd";
+    public static final String LIST_CINEMA = "LIST_CINEMA";
 }

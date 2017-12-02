@@ -2,43 +2,46 @@ package movies.com.co.myapplication.model;
 
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
-@Root(name = "movieinfo" ,strict = false)
-public class Movie {
+import java.io.Serializable;
 
-    @Attribute(name = "id")
-    private long id;
+@Root(strict = false)
+public class Movie implements Serializable {
 
-    @Element(name = "info")
-    private InformationMovie movieinfo;
+    @Attribute(name = "id" ,required = false)
+    private String id;
 
-    @Element(name = "cast")
+    @Element(name = "info" , required = false)
+    private InformationMovie info;
+
+    @Element(name = "cast" , required = false)
     private CastingMovie cast;
 
-    @Element(name = "genre")
-    private GenreMovie genreMovie;
+    @Element(name = "genre", required = false)
+    private GenreMovie genre;
 
-    @Element(name = "poster")
+    @Element(name = "poster", required = false)
     private PosterMovie posterMovie;
 
-    @Element(name = "preview")
+    @Element(name = "preview", required = false)
     private PreviewMovie previewMovie;
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public InformationMovie getMovieinfo() {
-        return movieinfo;
+    public InformationMovie getMovieInfo() {
+        return info;
     }
 
-    public void setMovieinfo(InformationMovie movieinfo) {
-        this.movieinfo = movieinfo;
+    public void setMovieInfo(InformationMovie movieInfo) {
+        this.info = movieInfo;
     }
 
     public CastingMovie getCast() {
@@ -50,11 +53,11 @@ public class Movie {
     }
 
     public GenreMovie getGenreMovie() {
-        return genreMovie;
+        return genre;
     }
 
     public void setGenreMovie(GenreMovie genreMovie) {
-        this.genreMovie = genreMovie;
+        this.genre = genreMovie;
     }
 
     public PosterMovie getPosterMovie() {

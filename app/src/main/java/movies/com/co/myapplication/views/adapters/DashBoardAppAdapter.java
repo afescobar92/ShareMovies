@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import movies.com.co.myapplication.helper.Constants;
 import movies.com.co.myapplication.views.fragments.FragmentMovies;
+import movies.com.co.myapplication.views.fragments.FragmentProfile;
 
 public class DashBoardAppAdapter extends FragmentStatePagerAdapter {
 
@@ -20,7 +21,7 @@ public class DashBoardAppAdapter extends FragmentStatePagerAdapter {
             case 0:
                 return new FragmentMovies();
             case 1:
-                return new FragmentMovies();
+                return new FragmentProfile();
             case 2:
                 return new FragmentMovies();
         }

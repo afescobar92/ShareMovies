@@ -6,11 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".views.activities.DashBoardAppActivity"
-    android:background="@color/colorWhite">
+    android:background="@color/colorGray">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="80dp"
         android:background="@color/colorBlack">
 
         <android.support.v7.widget.Toolbar

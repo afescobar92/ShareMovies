@@ -1,4 +1,22 @@
 <resources>
-    <string name="app_name">ShareMovie</string>
-    <string name="title_activity_menu"></string>
+
+    <string name="com.twitter.sdk.android.CONSUMER_KEY">yEcpxQJC1qI1shPQequZxFg8F</string>
+    <string name="com.twitter.sdk.android.CONSUMER_SECRET">XQfw8VDekyXwxsVnRLq5uyJOfPsu5QBGA2J44GlrZc9BEpMWK1</string>
+
+    <string name="facebook_app_id">1477871638934428</string>
+    <string name="fb_login_protocol_scheme">fb1477871638934428</string>
+
+    <string name="app_name">ShareMovieApp</string>
+    <string name="ok_button">Aceptar</string>
+    <string name="lblGenre"><![CDATA[GENERO]]></string>
+    <string name="lblDirector"><![CDATA[DIRECTOR]]></string>
+    <string name="lblReleaseDate"><![CDATA[FECHA]]></string>
+    <string name="lblStudio"><![CDATA[ESTUDIO]]></string>
+    <string name="txtRating">RATING</string>
+    <string name="no_location_detected">Localización no detectada</string>
+    <string name="permission_rationale">Localizacion necesaria</string>
+    <string name="permission_denied_explanation">Permisos denegados</string>
+    <string name="settings">Configuración</string>
+    <string name="lblLocationUser">Your Location</string>
+
 </resources>
