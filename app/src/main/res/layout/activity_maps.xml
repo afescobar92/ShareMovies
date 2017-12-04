@@ -5,4 +5,39 @@
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.activities.MovieLocationActivity" />
+    android:background="@color/colorGray"
+    tools:context=".views.activities.MovieLocationActivity" >
+    <ImageView
+        style="@style/AppTheme.AppBarOverlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorGray"
+        android:onClick="back"
+        android:clickable="true"
+        android:src="@drawable/icon_back" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <android.support.design.widget.FloatingActionButton
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/btnMyLocation"
+            android:layout_gravity="right|center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="getMyLocation"
+            android:src="@drawable/ic_my_location_black_24dp"
+            />
+
+            <android.support.design.widget.FloatingActionButton
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/btnCenterLocation"
+                android:layout_width="wrap_content"
+                android:layout_gravity="right|center"
+                android:layout_height="wrap_content"
+                android:onClick="centerLocation"
+                android:src="@drawable/ic_all_out_black_24dp"
+                />
+    </LinearLayout>
+
+</fragment>

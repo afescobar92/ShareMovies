@@ -15,9 +15,9 @@ public class Cinemas implements Serializable {
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("locationList")
+    @SerializedName("locationsList")
     @Expose
-    private List<LocationCinemax> locationList;
+    private List<LocationCinemas> locationList;
 
     public String getId() {
         return id;
@@ -35,11 +35,11 @@ public class Cinemas implements Serializable {
         this.name = name;
     }
 
-    public List<LocationCinemax> getLocationList() {
+    public List<LocationCinemas> getLocationList() {
         return locationList;
     }
 
-    public void setLocationList(List<LocationCinemax> locationList) {
+    public void setLocationList(List<LocationCinemas> locationList) {
         this.locationList = locationList;
     }
 }

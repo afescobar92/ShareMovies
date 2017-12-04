@@ -12,6 +12,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -28,6 +29,7 @@ import com.directions.route.RoutingListener;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -38,6 +40,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -51,7 +54,7 @@ import movies.com.co.myapplication.R;
 import movies.com.co.myapplication.helper.Constants;
 import movies.com.co.myapplication.helper.Utilities;
 import movies.com.co.myapplication.model.Cinemas;
-import movies.com.co.myapplication.model.LocationCinemax;
+import movies.com.co.myapplication.model.LocationCinemas;
 import movies.com.co.myapplication.model.MapMovie;
 
 
@@ -64,8 +67,12 @@ public class MovieLocationActivity extends FragmentActivity implements OnMapRead
     protected Location mLastLocation;
     private MapMovie mapMovie;
     LatLng myLocation = null;
+    List<Marker> posMarkers = new ArrayList<>();
+    Marker posMarkerMyLocation;
     ArrayList<LatLng> pointsRoutes;
     int colorTrace = 0;
+    int imagesTraces = 0;
+    FloatingActionButton btnMyLocation,btnCenterLocation;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,8 +90,11 @@ public class MovieLocationActivity extends FragmentActivity implements OnMapRead
     }
 
     private void loadView() {
+        btnMyLocation = findViewById(R.id.btnCenterLocation);
+        btnCenterLocation = findViewById(R.id.btnCenterLocation);
         if(getIntent() != null) {
             mapMovie = (MapMovie) getIntent().getSerializableExtra(Constants.LIST_CINEMA);
+            mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         }
     }
 
@@ -93,32 +103,40 @@ public class MovieLocationActivity extends FragmentActivity implements OnMapRead
         mMap = googleMap;
         if(Utilities.isNight()){
             mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this,R.raw.style_map_night));
-            colorTrace = R.color.colorPrimary;
+            colorTrace = R.color.colorGray;
+            imagesTraces = R.drawable.ic_location_white_movie;
         }else{
             mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this,R.raw.style_map_standard));
-           colorTrace = R.color.colorBlack;
+            colorTrace = R.color.colorBlack;
+            imagesTraces = R.drawable.ic_location_black_movie;
         }
         mMap.clear();
         initMapUiSettings();
+        if (!checkPermissions()) {
+            requestPermissions();
+        } else {
+            getLastLocation();
+        }
+    }
+
+    private void initLocationCinemas(){
         List<Cinemas> locationList = this.mapMovie.getCinemas();
         ArrayList<LatLng> points = new ArrayList<>();
         myLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-        mMap.addMarker(new MarkerOptions().position(myLocation).title(getString(R.string.lblLocationUser)).icon(getBitMapFromVector(this, R.drawable.ic_location_movie)));
+        this.posMarkerMyLocation = mMap.addMarker(new MarkerOptions().position(myLocation).title(getString(R.string.lblLocationUser)).icon(getBitMapFromVector(this, imagesTraces)));
         points.add(myLocation);
-
+        posMarkerMyLocation.showInfoWindow();
+        this.posMarkers.add(posMarkerMyLocation);
         for (Cinemas cinema:locationList) {
-
-            List<LocationCinemax> locationCinema = cinema.getLocationList();
-
-            for (LocationCinemax location:locationCinema) {
+            List<LocationCinemas> locationCinema = cinema.getLocationList();
+            for (LocationCinemas location:locationCinema) {
                 movies.com.co.myapplication.model.Location locationMap = location.getLocations();
-                LatLng point = new LatLng(location.getLocations().getCoordinates()[0], location.getLocations().getCoordinates()[1]);
-                mMap.addMarker(new MarkerOptions().position(point).title(location.getName()).icon(getBitMapFromVector(this,R.drawable.ic_location_movie)));
+                LatLng point = new LatLng(location.getLocations().getCoordinates()[1], location.getLocations().getCoordinates()[0]);
+                Marker marker = mMap.addMarker(new MarkerOptions().position(point).title(location.getName()).icon(getBitMapFromVector(this,imagesTraces)).visible(true));
                 points.add(point);
+                this.posMarkers.add(marker);
             }
-
         }
-
         createTraceRoute(points);
     }
 
@@ -129,18 +147,15 @@ public class MovieLocationActivity extends FragmentActivity implements OnMapRead
     }
 
     private void createTraceRoute(ArrayList<LatLng> points){
-
         Routing routing = new Routing.Builder()
                 .travelMode(AbstractRouting.TravelMode.DRIVING)
                 .waypoints(points)
                 .key(getString(R.string.google_maps_key))
-                .optimize(true)
+                .optimize(points != null && points.size() >2)
                 .withListener(getRouteListener())
                 .build();
         routing.execute();
-
         centerRoutes(points);
-
     }
 
     private void centerRoutes(ArrayList<LatLng> points) {
@@ -175,12 +190,11 @@ public class MovieLocationActivity extends FragmentActivity implements OnMapRead
 
                 for (Route route: routes){
                     PolylineOptions polylineOptions = new PolylineOptions();
-                    polylineOptions.color(ContextCompat.getColor(getApplicationContext(),R.color.colorBlack));
+                    polylineOptions.color(ContextCompat.getColor(getApplicationContext(),colorTrace));
                     polylineOptions.width(10);
                     polylineOptions.addAll(route.getPoints());
                     Polyline polyline = mMap.addPolyline(polylineOptions);
                     polylines.add(polyline);
-
                     int distance = route.getDistanceValue();
                     int duration = route.getDurationValue();
 
@@ -270,6 +284,7 @@ public class MovieLocationActivity extends FragmentActivity implements OnMapRead
                     public void onComplete(@NonNull Task<Location> task) {
                         if (task.isSuccessful() && task.getResult() != null) {
                             mLastLocation = task.getResult();
+                            initLocationCinemas();
                         } else {
                             Log.w(TAG, "getLastLocation:exception", task.getException());
                             showSnackBar(getString(R.string.no_location_detected));
@@ -299,14 +314,24 @@ public class MovieLocationActivity extends FragmentActivity implements OnMapRead
                 REQUEST_PERMISSIONS_REQUEST_CODE);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (!checkPermissions()) {
-            requestPermissions();
-        } else {
-            getLastLocation();
+    public void getMyLocation(View view) {
+
+        if(mLastLocation != null) {
+            if (myLocation == null) {
+                myLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+            }
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(myLocation, 18);
+            mMap.animateCamera(cameraUpdate);
+            posMarkerMyLocation.showInfoWindow();
         }
     }
 
+    public void centerLocation(View view) {
+        posMarkerMyLocation.showInfoWindow();
+        centerRoutes(pointsRoutes);
+    }
+
+    public void back(View view) {
+        finish();
+    }
 }

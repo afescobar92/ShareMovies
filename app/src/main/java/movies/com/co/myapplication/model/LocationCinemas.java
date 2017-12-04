@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class LocationCinemax implements Serializable {
+public class LocationCinemas implements Serializable {
 
     @SerializedName("name")
     @Expose
