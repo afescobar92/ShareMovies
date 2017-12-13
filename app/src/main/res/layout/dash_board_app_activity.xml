@@ -10,13 +10,22 @@
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="100dp"
         android:background="@color/colorBlack">
+
 
         <android.support.v7.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|enterAlways">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profileImage"
+                android:layout_gravity="left"
+                android:layout_marginLeft="11sp"
+                android:layout_marginTop="15sp"
+                android:layout_weight="1"
+                android:layout_width="20dp"
+                android:layout_height="wrap_content" />
         </android.support.v7.widget.Toolbar>
 
 
